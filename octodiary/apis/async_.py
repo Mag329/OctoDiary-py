@@ -21,6 +21,7 @@ from octodiary.types.captcha import async_generate_captcha_class
 from octodiary.types.enter_sms_code import EnterSmsCode
 from octodiary.types.mobile import (
     ClassMembers,
+    Clients,
     DayBalanceInfo,
     EventsResponse,
     FamilyProfile,
@@ -508,6 +509,29 @@ class AsyncMobileAPI(AsyncBaseAPI):
             },
             json=settings.model_dump(),
             return_raw_text=True
+        )
+        
+    async def get_clients(self, person_id: int) -> Clients:
+        """
+        Get clients
+
+        Args:
+            person_id (str): The ID of the person.
+
+        Returns:
+            FamilyProfile: The family profile of the person.
+        """
+        return await self.request(
+            method="GET",
+            base_url=BaseURL(type=URLTypes.SCHOOL_API, system=self.system),
+            path="/meals/v2/clients",
+            params={
+                "personId": person_id
+            },
+            custom_headers={
+                "x-mes-subsystem": "familymp",
+            },
+            model=Clients
         )
 
     async def get_events(
