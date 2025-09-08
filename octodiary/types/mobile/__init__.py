@@ -27,6 +27,8 @@ from octodiary.types.mobile.user_childrens import UserChildrens
 from octodiary.types.mobile.user_settings import UserSettings
 from octodiary.types.mobile.users_profiles_info import UsersProfilesInfo
 from octodiary.types.mobile.visits import Visits
+from octodiary.types.mobile.homeworks import Homeworks
+from octodiary.types.mobile.homeworks import DoneHomework
 
 __all__ = [
     "ClassMembers",
@@ -55,4 +57,6 @@ __all__ = [
     "UserChildrens",
     "UsersProfilesInfo",
     "Visits",
+    "Homeworks",
+    "DoneHomework",
 ]

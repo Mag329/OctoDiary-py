@@ -46,6 +46,8 @@ from octodiary.types.mobile import (
     UserSettings,
     UsersProfilesInfo,
     Visits,
+    Homeworks,
+    DoneHomework,
 )
 from octodiary.types.mobile.subject_marks import SubjectsMarks
 from octodiary.types.model import Type
@@ -606,6 +608,62 @@ class SyncMobileAPI(SyncBaseAPI):
                 "profile-id": profile_id,
             },
             model=ShortHomeworks,
+        )
+        
+    def get_homeworks(
+            self,
+            student_id: int,
+            profile_id: int,
+            from_date: Optional[date] = None,
+            to_date: Optional[date] = None,
+    ) -> Homeworks:
+        """
+        Retrieves a list of short homeworks for a given student within a specified date range.
+
+        Args:
+            student_id (int): The ID of the student.
+            profile_id (int): The ID of the profile.
+            from_date (date): The start date of the range.
+            to_date (date): The end date of the range.
+            sort_column (str, optional): The column to sort the homeworks by. Defaults to "date".
+            sort_direction (str, optional): The direction to sort the homeworks in. Defaults to "asc".
+
+        Returns:
+            ShortHomeworks: The short homeworks object.
+        """
+        return self.request(
+            method="GET",
+            base_url=BaseURL(type=URLTypes.SCHOOL_API, system=self.system),
+            path="/family/mobile/v1/homeworks",
+            params={
+                "student_id": student_id,
+                "from": self.date_to_string(from_date),
+                "to": self.date_to_string(to_date)
+            },
+            custom_headers={
+                "x-mes-subsystem": "familymp",
+                "client-type": "diary-mobile",
+                "profile-id": profile_id,
+            },
+            model=Homeworks,
+        )
+        
+    def done_homework(
+            self,
+            profile_id: int,
+            homework_entry_id: int,
+            done: bool,
+    ):
+        return self.request(
+            method="POST" if done else "DELETE",
+            base_url=BaseURL(type=URLTypes.SCHOOL_API, system=self.system),
+            path=f"/family/mobile/v1/homeworks/{homework_entry_id}/done",
+            custom_headers={
+                "x-mes-subsystem": "familymp",
+                "client-type": "diary-mobile",
+                "profile-id": profile_id,
+            },
+            model=DoneHomework,
         )
 
     def get_marks(
