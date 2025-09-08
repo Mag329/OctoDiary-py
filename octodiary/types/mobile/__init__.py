@@ -4,6 +4,7 @@
 #           https://github.com/OctoDiary
 
 from octodiary.types.mobile.class_members import ClassMembers
+from octodiary.types.mobile.clients import Clients
 from octodiary.types.mobile.day_balance_info import DayBalanceInfo
 from octodiary.types.mobile.events import EventsResponse
 from octodiary.types.mobile.family_profile import FamilyProfile
@@ -26,9 +27,12 @@ from octodiary.types.mobile.user_childrens import UserChildrens
 from octodiary.types.mobile.user_settings import UserSettings
 from octodiary.types.mobile.users_profiles_info import UsersProfilesInfo
 from octodiary.types.mobile.visits import Visits
+from octodiary.types.mobile.homeworks import Homeworks
+from octodiary.types.mobile.homeworks import DoneHomework
 
 __all__ = [
     "ClassMembers",
+    "Clients",
     "DayBalanceInfo",
     "EventsResponse",
     "FamilyProfile",
@@ -53,4 +57,6 @@ __all__ = [
     "UserChildrens",
     "UsersProfilesInfo",
     "Visits",
+    "Homeworks",
+    "DoneHomework",
 ]

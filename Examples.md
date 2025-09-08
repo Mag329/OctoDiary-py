@@ -1,4 +1,4 @@
-<p align="center">
+P<p align="center">
     <a href="https://github.com/OctoDiary">
         <img src="https://avatars.githubusercontent.com/u/90847608?s=200&v=4" alt="OctoDiary" width="200">
     </a>
@@ -559,14 +559,15 @@ async def mobile_api():
     api.token = await sms_code.async_enter_code(code)
 
     # получаем ID профиля
-    profile_id = (await api.get_users_profiles_info())[0].id
+    profile_id = (await api.get_users_profile_info())[0].id
 
     # Получаем инфо о профиле и сохраняем некоторые важные данные, которые будут нужны
     profile = await api.get_family_profile(profile_id=profile_id)
     mes_role = profile.profile.type                      # тип пользователя
     person_id = profile.children[0].contingent_guid      # person-id ученика
     student_id = profile.children[0].id                  # <STUDENT-ID>
-    contract_id = profile.children[0].contract_id        # <CONTRACT-ID>
+    clients = await api.get_clients(person_id=person_id)
+    contract_id = clients.client_id.contract_id          # <CONTRACT-ID>
 
     # получить сохраненные настройки приложения пользователя (тема и т.д.)
     settings = await api.get_user_settings_app(profile_id=profile_id)
@@ -712,7 +713,7 @@ def mobile_api():
     API методы и запросы, которые делает приложение "Дневник МЭШ" для получения данных
     """
 
-    api = AsyncMobileAPI(system=Systems.MES)
+    api = SyncMobileAPI(system=Systems.MES)
 
     # авторизовываемся, получаем токен и сохраняем его
     login = input("Логин: ")
@@ -730,7 +731,8 @@ def mobile_api():
     mes_role = profile.profile.type                      # тип пользователя
     person_id = profile.children[0].contingent_guid      # person-id ученика
     student_id = profile.children[0].id                  # <STUDENT-ID>
-    contract_id = profile.children[0].contract_id        # <CONTRACT-ID>
+    clients = api.get_clients(person_id=person_id)
+    contract_id = clients.client_id.contract_id          # <CONTRACT-ID>
 
     # получить сохраненные настройки приложения пользователя (тема и т.д.)
     settings = api.get_user_settings_app(profile_id=profile_id)
