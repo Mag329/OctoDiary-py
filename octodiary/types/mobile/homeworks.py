@@ -8,13 +8,18 @@ from datetime import datetime as DT
 from pydantic import BaseModel
 
 
+class UrlItem(BaseModel):
+    url: Optional[str] = None
+    type: Optional[str] = None
+
+
 class Material(BaseModel):
     uuid: Optional[str] = None
     type: Optional[str] = None
     selected_mode: Optional[str] = None
     type_name: Optional[str] = None
     id: Optional[int] = None
-    urls: Optional[List[str]] = None
+    urls: Optional[List[UrlItem]] = None
     description: Optional[str] = None
     content_type: Optional[str] = None
     title: Optional[str] = None
