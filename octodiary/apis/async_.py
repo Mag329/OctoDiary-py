@@ -673,6 +673,25 @@ class AsyncMobileAPI(AsyncBaseAPI):
             model=DoneHomework,
         )
 
+    async def get_activity_launch_link(
+            self,
+            homework_entry_id: int,
+            material_id: str,
+    ):
+        return await self.request(
+            method="GET",
+            base_url=BaseURL(type=URLTypes.SCHOOL_API, system=self.system),
+            path=f"/ej/partners/v1/homeworks/launch",
+            custom_headers={
+                "x-mes-subsystem": "familymp"
+            },
+            params={
+                "material_id": material_id,
+                "homework_entry_id": homework_entry_id
+            },
+            return_raw_text=True
+        )
+
     async def get_marks(
             self,
             student_id: int,
