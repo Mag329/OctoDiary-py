@@ -947,7 +947,8 @@ class AsyncMobileAPI(AsyncBaseAPI):
             self,
             student_id: int,
             profile_id: int,
-            subject_name: int
+            subject_name: str = None,
+            subject_id: int = None
     ) -> SubjectMarksForSubject:
         """
         Get subject marks for subject
@@ -960,15 +961,18 @@ class AsyncMobileAPI(AsyncBaseAPI):
         Returns:
             SubjectMarksForSubject: The subject marks for subject.
         """
+        params = {"student_id": student_id}
+        if subject_name:
+            params["subject_name"] = subject_name
+        elif subject_id:
+            params["subject_id"] = subject_id
+        
         return await self.request(
             method="GET",
             base_url=BaseURL(type=URLTypes.SCHOOL_API, system=self.system),
             path="/family/mobile/v1/subject_marks/for_subject",
             model=SubjectMarksForSubject,
-            params={
-                "student_id": student_id,
-                "subject_name": subject_name
-            },
+            params=params,
             custom_headers={
                 "x-mes-subsystem": "familymp",
                 "client-type": "diary-mobile",
