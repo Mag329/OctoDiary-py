@@ -620,7 +620,7 @@ class AsyncMobileAPI(AsyncBaseAPI):
     async def get_homeworks(
             self,
             student_id: int,
-            profile_id: int,
+            profile_id: int = None,
             from_date: Optional[date] = None,
             to_date: Optional[date] = None,
     ) -> Homeworks:
@@ -915,7 +915,7 @@ class AsyncMobileAPI(AsyncBaseAPI):
     async def get_notifications(
             self,
             student_id: int,
-            profile_id: int
+            profile_id: int = None
     ) -> list[Notification]:
         """
         Retrieve a list of notifications for a specific student.
@@ -1943,9 +1943,9 @@ class AsyncWebAPI(AsyncBaseAPI):
         """
         return await self.request(
             method="GET",
-            base_url=BaseURL(type=URLTypes.DNEVNIK, system=self.system),
+            base_url=BaseURL(type=URLTypes.SCHOOL, system=self.system),
             path="/v1/roles/allGlobal/",
-            model=web.Role, is_list=True, required_token=False
+            model=web.Role, is_list=True, required_token=True
         )
 
     async def get_events(

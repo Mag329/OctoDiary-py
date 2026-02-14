@@ -3,7 +3,7 @@
 #        https://opensource.org/licenses/MIT
 #           https://github.com/OctoDiary
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 from octodiary import apis, exceptions, types, urls
 
