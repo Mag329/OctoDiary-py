@@ -15,6 +15,7 @@ from octodiary.types.web.user_contact import UserContact
 from octodiary.types.web.user_info import UserInfo
 from octodiary.types.web.web_family_profile import WebFamilyProfile
 from octodiary.types.web.web_organizations import WebOrganizations
+from octodiary.types.web.schedule import ScheduleResponse
 
 __all__ = [
     "UserInfo",
@@ -29,4 +30,5 @@ __all__ = [
     "UserChildren",
     "UserContact",
     "WebOrganizations",
+    "ScheduleResponse",
 ]

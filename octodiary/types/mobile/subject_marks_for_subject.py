@@ -3,7 +3,9 @@
 #        https://opensource.org/licenses/MIT
 #           https://github.com/OctoDiary
 
-from typing import Any, Optional
+from typing import Any, Optional, Union
+from pydantic import field_validator
+from datetime import date, datetime
 
 from octodiary.types.model import DT, Type
 
@@ -40,8 +42,8 @@ class Target(Type):
 
 
 class Period(Type):
-    start: Optional[DT] = None
-    end: Optional[DT] = None
+    start: Optional[Union[datetime, date, str]] = None
+    end: Optional[Union[datetime, date, str]] = None
     title: Optional[str] = None
     dynamic: Optional[str] = None
     value: Optional[str] = None
@@ -49,6 +51,46 @@ class Period(Type):
     count: Optional[int] = None
     target: Optional[Target] = None
     fixed_value: Optional["str | int"] = None
+    
+    @field_validator('start', 'end', mode='before')
+    @classmethod
+    def parse_period_date(cls, v: Any) -> Any:
+        """Преобразует строки вида 'dd.mm' в datetime объекты"""
+        if v is None:
+            return v
+            
+        if isinstance(v, (datetime, date)):
+            return v
+            
+        if isinstance(v, str):
+            try:
+                return datetime.fromisoformat(v.replace('Z', '+00:00'))
+            except (ValueError, TypeError):
+                pass
+            
+            if '.' in v and len(v.split('.')) == 2:
+                try:
+                    day, month = map(int, v.split('.'))
+                    current_year = datetime.now().year
+                    
+                    if month >= 9:
+                        if datetime.now().month < 9:
+                            year = current_year - 1
+                        else:
+                            year = current_year
+                    else:
+                        if datetime.now().month >= 9:
+                            year = current_year + 1
+                        else:
+                            year = current_year
+                    
+                    return datetime(year, month, day)
+                except (ValueError, TypeError):
+                    pass
+            
+            return v
+        
+        return v
 
 
 class SubjectMarksForSubject(Type):

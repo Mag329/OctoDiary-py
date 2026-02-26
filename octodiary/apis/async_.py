@@ -2041,3 +2041,34 @@ class AsyncWebAPI(AsyncBaseAPI):
         )
 
     get_organizations = get_organisations
+    
+    
+    async def get_schedule(
+            self,
+            student_id: int,
+            date: Optional[date] = None
+    ) -> web.ScheduleResponse:
+        """
+        Get schedule web
+
+        Args:
+            student_id: int
+            date: (date, optional)
+
+        Returns:
+            ScheduleResponse
+        """
+        return await self.request(
+            method="GET",
+            base_url=BaseURL(type=URLTypes.SCHOOL, system=self.system),
+            path="/api/family/web/v1/schedule",
+            custom_headers={
+                "X-mes-subsystem": "familyweb",
+            },
+            model=web.ScheduleResponse,
+            params={
+                "student_id": student_id,
+                "date": self.date_to_string(date)
+            },
+            # return_json=True
+        )
