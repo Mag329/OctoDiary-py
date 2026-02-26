@@ -24,5 +24,6 @@ class Notification(Type):
     old_mark_value: Optional[str] = None
     new_mark_value: Optional[str] = None
     new_is_exam: Optional[bool] = None
+    old_mark_weight: Optional[int] = None
     new_mark_weight: Optional[int] = None
     control_form_name: Optional[str] = None
